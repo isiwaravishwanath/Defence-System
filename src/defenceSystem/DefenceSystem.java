@@ -14,7 +14,15 @@ public class DefenceSystem {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+       MainController mainController=new MainController();
+       Helicopter helicopter=new Helicopter();
+       Submarine submarine=new Submarine();
+       Tank tank=new Tank();
+       
+       mainController.setVisible(true);
+       helicopter.setVisible(true);
+       submarine.setVisible(true);
+       tank.setVisible(true);
     }
     
 }

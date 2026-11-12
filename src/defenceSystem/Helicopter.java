@@ -4,17 +4,26 @@
  */
 package defenceSystem;
 
+import javax.swing.JLabel;
+
 /**
  *
  * @author Isiwara
  */
-public class Helicopter extends javax.swing.JFrame {
+public class Helicopter extends javax.swing.JFrame implements Observer{
 
     /**
      * Creates new form Helicopter
      */
     public Helicopter() {
         initComponents();
+    }
+    
+    
+    
+    @Override
+    public void setArea(String area){
+        heliArea.setText(area);
     }
 
     /**

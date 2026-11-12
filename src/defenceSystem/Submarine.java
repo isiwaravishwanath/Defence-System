@@ -8,13 +8,18 @@ package defenceSystem;
  *
  * @author Isiwara
  */
-public class Submarine extends javax.swing.JFrame {
+public class Submarine extends javax.swing.JFrame implements Observer{
 
     /**
      * Creates new form Submarine
      */
     public Submarine() {
         initComponents();
+    }
+    
+    @Override
+    public void setArea(String area){
+        subArea.setText(area);
     }
 
     /**

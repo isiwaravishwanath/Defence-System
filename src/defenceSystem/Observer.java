@@ -9,5 +9,6 @@ package defenceSystem;
  * @author Isiwara
  */
 public interface Observer {
-    
+    public void setArea(String area);
+    public void setText(String text);
 }

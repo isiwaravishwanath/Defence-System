@@ -10,11 +10,35 @@ package defenceSystem;
  */
 public class MainController extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainController
-     */
+    Observer[] observerArray = new Observer[0];
+    Helicopter helicopter = new Helicopter();
+    Submarine submarine = new Submarine();
+    Tank tank = new Tank();
+
     public MainController() {
         initComponents();
+        helicopter.setVisible(true);
+        submarine.setVisible(true);
+        tank.setVisible(true);
+    }
+
+    public void addDefence(Observer observer) {
+        extendArray();
+        observerArray[observerArray.length - 1] = observer;
+    }
+
+    public void addObserverDefence(Helicopter helicopter, Tank tank, Submarine submarine) {
+        addDefence(helicopter);
+        addDefence(tank);
+        addDefence(submarine);
+    }
+
+    public void extendArray() {
+        Observer[] tempObserverArray = new Observer[observerArray.length + 1];
+        for (int i = 0; i < observerArray.length; i++) {
+            tempObserverArray[i] = observerArray[i];
+        }
+        observerArray = tempObserverArray;
     }
 
     /**
@@ -50,6 +74,11 @@ public class MainController extends javax.swing.JFrame {
         mainCollect.setText("Collect Information");
 
         mainArea.setText("Area Clear");
+        mainArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mainAreaActionPerformed(evt);
+            }
+        });
 
         mainSoldier.setText("Soldier Count");
 
@@ -159,6 +188,21 @@ public class MainController extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void mainAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainAreaActionPerformed
+        // TODO add your handling code here:
+
+        if (mainArea.isSelected()) {
+            for (Observer ob : observerArray) {
+                ob.setArea("Area Cleared");
+            }
+        } else {
+            for (Observer ob : observerArray) {
+                ob.setArea("Area Not Cleared");
+            }
+        }
+
+    }//GEN-LAST:event_mainAreaActionPerformed
 
     /**
      * @param args the command line arguments

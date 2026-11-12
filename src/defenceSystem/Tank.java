@@ -8,13 +8,19 @@ package defenceSystem;
  *
  * @author Isiwara
  */
-public class Tank extends javax.swing.JFrame {
+public class Tank extends javax.swing.JFrame implements Observer{
 
     /**
      * Creates new form Tank
      */
     public Tank() {
         initComponents();
+        
+    }
+    
+    @Override
+    public void setArea(String area){
+        tankArea.setText(area);
     }
 
     /**
