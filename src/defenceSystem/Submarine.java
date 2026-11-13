@@ -15,6 +15,8 @@ public class Submarine extends javax.swing.JFrame implements Observer{
      */
     public Submarine() {
         initComponents();
+        setResizable(false);
+        setLocation(700, 40);
     }
     
     @Override
@@ -51,6 +53,7 @@ public class Submarine extends javax.swing.JFrame implements Observer{
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Submarine");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("Soldier Count");

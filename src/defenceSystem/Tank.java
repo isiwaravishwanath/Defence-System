@@ -15,7 +15,8 @@ public class Tank extends javax.swing.JFrame implements Observer{
      */
     public Tank() {
         initComponents();
-        
+        setResizable(false);
+        setLocation(100, 400);
     }
     
     @Override
@@ -49,6 +50,7 @@ public class Tank extends javax.swing.JFrame implements Observer{
         jSlider1 = new javax.swing.JSlider();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Tank");
 
         tankSend.setText("Send");
 

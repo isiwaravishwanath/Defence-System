@@ -17,9 +17,12 @@ public class MainController extends javax.swing.JFrame {
 
     public MainController() {
         initComponents();
+        setResizable(false);
+        setLocation(700, 400);
         helicopter.setVisible(true);
         submarine.setVisible(true);
         tank.setVisible(true);
+        addObserverDefence(helicopter, tank, submarine);
     }
 
     public void addDefence(Observer observer) {
@@ -68,6 +71,7 @@ public class MainController extends javax.swing.JFrame {
         mainSend = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Main Controller");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Defence", "Helicopter", "Tank", "Submarine" }));
 

@@ -17,6 +17,8 @@ public class Helicopter extends javax.swing.JFrame implements Observer{
      */
     public Helicopter() {
         initComponents();
+        setResizable(false);
+        setLocation(100, 20);
     }
     
     
@@ -52,6 +54,9 @@ public class Helicopter extends javax.swing.JFrame implements Observer{
         jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Helicopter");
+
+        jPanel1.setToolTipText("Helicopter");
 
         heliArea.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         heliArea.setText("Area Not Cleared");
