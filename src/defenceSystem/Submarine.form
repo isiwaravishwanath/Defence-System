@@ -29,7 +29,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="subField" max="32767" attributes="0"/>
+                      <Component id="subTextField" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="subSend" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -123,7 +123,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="subSend" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="subField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="subTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
@@ -170,6 +170,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Send"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="subSendActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="subSonar">
       <Properties>
@@ -188,7 +191,7 @@
     </Component>
     <Component class="javax.swing.JSpinner" name="jSpinner1">
     </Component>
-    <Component class="javax.swing.JTextField" name="subField">
+    <Component class="javax.swing.JTextField" name="subTextField">
     </Component>
     <Component class="javax.swing.JSpinner" name="jSpinner2">
     </Component>
@@ -204,7 +207,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTextArea" name="jTextArea1">
+        <Component class="javax.swing.JTextArea" name="subTextBox">
           <Properties>
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>

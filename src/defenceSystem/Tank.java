@@ -8,7 +8,9 @@ package defenceSystem;
  *
  * @author Isiwara
  */
-public class Tank extends javax.swing.JFrame implements Observer{
+public class Tank extends javax.swing.JFrame implements Observer {
+
+    private MainController mainC;
 
     /**
      * Creates new form Tank
@@ -17,11 +19,55 @@ public class Tank extends javax.swing.JFrame implements Observer{
         initComponents();
         setResizable(false);
         setLocation(100, 400);
+        tankTextBox.setEditable(false);
+        setVisible(true);
+        tankLaser.setEnabled(false);
+        tankMissile.setEnabled(false);
+        tankRotate.setEnabled(false);
+        tankShoot.setEnabled(false);
     }
-    
+
     @Override
-    public void setArea(String area){
+    public void setArea(String area) {
         tankArea.setText(area);
+    }
+
+    @Override
+    public void setMessage(String msg) {
+        tankTextBox.append("Main Controller: " + msg + "\n");
+    }
+
+    public void addMain(MainController mainC) {
+        this.mainC = mainC;
+    }
+
+    public void setSelection(int value, String option) {
+        if(option.equals("Tank")){
+            if (value >= 20) {
+                tankShoot.setEnabled(true);
+            } else if (value < 20) {
+                tankShoot.setEnabled(false);
+            }
+
+            if (value >= 40) {
+                tankMissile.setEnabled(true);
+            } else if (value < 40) {
+                tankMissile.setEnabled(false);
+            }
+
+            if (value >= 60) {
+                tankLaser.setEnabled(true);
+            } else if (value < 60) {
+                tankLaser.setEnabled(false);
+            }
+
+            if (value >= 80) {
+                tankRotate.setEnabled(true);
+            } else if (value < 80) {
+                tankRotate.setEnabled(false);
+            }
+        }
+        
     }
 
     /**
@@ -38,14 +84,14 @@ public class Tank extends javax.swing.JFrame implements Observer{
         jSpinner1 = new javax.swing.JSpinner();
         jSpinner2 = new javax.swing.JSpinner();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        tankTextBox = new javax.swing.JTextArea();
         tankArea = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         tankShoot = new javax.swing.JButton();
         tankMissile = new javax.swing.JButton();
         tankLaser = new javax.swing.JButton();
-        tankField = new javax.swing.JTextField();
+        tankTextField = new javax.swing.JTextField();
         tankRotate = new javax.swing.JButton();
         jSlider1 = new javax.swing.JSlider();
 
@@ -53,12 +99,17 @@ public class Tank extends javax.swing.JFrame implements Observer{
         setTitle("Tank");
 
         tankSend.setText("Send");
+        tankSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tankSendActionPerformed(evt);
+            }
+        });
 
         tankPosition.setText("Position");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        tankTextBox.setColumns(20);
+        tankTextBox.setRows(5);
+        jScrollPane1.setViewportView(tankTextBox);
 
         tankArea.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         tankArea.setText("Area Not Cleared");
@@ -74,6 +125,12 @@ public class Tank extends javax.swing.JFrame implements Observer{
         tankMissile.setText("Missile Operation");
 
         tankLaser.setText("Laser Operation");
+
+        tankTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tankTextFieldActionPerformed(evt);
+            }
+        });
 
         tankRotate.setText("Rotate Shooting");
 
@@ -93,7 +150,7 @@ public class Tank extends javax.swing.JFrame implements Observer{
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(tankField)
+                        .addComponent(tankTextField)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tankSend))
                     .addGroup(layout.createSequentialGroup()
@@ -165,12 +222,27 @@ public class Tank extends javax.swing.JFrame implements Observer{
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(tankSend)
-                            .addComponent(tankField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(tankTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tankSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tankSendActionPerformed
+        // TODO add your handling code here:
+        String msg = tankTextField.getText();
+        if (!msg.equals("")) {
+            tankTextBox.append("Me: " + msg + "\n");
+            mainC.getMessage(msg, "Tank");
+            tankTextField.setText("");
+        }
+
+    }//GEN-LAST:event_tankSendActionPerformed
+
+    private void tankTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tankTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tankTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -214,14 +286,14 @@ public class Tank extends javax.swing.JFrame implements Observer{
     private javax.swing.JSlider jSlider1;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel tankArea;
-    private javax.swing.JTextField tankField;
     private javax.swing.JButton tankLaser;
     private javax.swing.JButton tankMissile;
     private javax.swing.JCheckBox tankPosition;
     private javax.swing.JButton tankRotate;
     private javax.swing.JButton tankSend;
     private javax.swing.JButton tankShoot;
+    private javax.swing.JTextArea tankTextBox;
+    private javax.swing.JTextField tankTextField;
     // End of variables declaration//GEN-END:variables
 }

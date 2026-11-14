@@ -10,5 +10,6 @@ package defenceSystem;
  */
 public interface Observer {
     public void setArea(String area);
-//    public void setMessage(String message);
+    public void setMessage(String message);
+    public void setSelection(int value, String option);
 }

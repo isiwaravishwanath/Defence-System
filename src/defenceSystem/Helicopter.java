@@ -10,7 +10,10 @@ import javax.swing.JLabel;
  *
  * @author Isiwara
  */
-public class Helicopter extends javax.swing.JFrame implements Observer{
+public class Helicopter extends javax.swing.JFrame implements Observer {
+
+    //MainController mainC=new MainController();
+    private MainController mainC;
 
     /**
      * Creates new form Helicopter
@@ -19,13 +22,49 @@ public class Helicopter extends javax.swing.JFrame implements Observer{
         initComponents();
         setResizable(false);
         setLocation(100, 20);
+        heliTextBox.setEditable(false);
+        setVisible(true);
+        heliLaser.setEnabled(false);
+        heliMissile.setEnabled(false);
+        heliShoot.setEnabled(false);
     }
-    
-    
-    
+
     @Override
-    public void setArea(String area){
+    public void setArea(String area) {
         heliArea.setText(area);
+    }
+
+    @Override
+    public void setMessage(String msg) {
+        heliTextBox.append("Main Controller: " + msg + "\n");
+    }
+
+    public void addMain(MainController mainC) {
+        this.mainC = mainC;
+    }
+
+    public void setSelection(int value, String option) {
+        if(option.equals("Helicopter")){
+            if (value >= 20) {
+                heliShoot.setEnabled(true);
+            } else if (value < 20) {
+                heliShoot.setEnabled(false);
+            }
+
+            if (value >= 40) {
+                heliMissile.setEnabled(true);
+            } else if (value < 40) {
+                heliMissile.setEnabled(false);
+            }
+
+            if (value >= 60) {
+                heliLaser.setEnabled(true);
+            } else if (value < 60) {
+                heliLaser.setEnabled(false);
+            }
+        }
+        
+        
     }
 
     /**
@@ -45,13 +84,13 @@ public class Helicopter extends javax.swing.JFrame implements Observer{
         heliShoot = new javax.swing.JButton();
         heliMissile = new javax.swing.JButton();
         heliLaser = new javax.swing.JButton();
-        heliField = new javax.swing.JTextField();
+        heliTextField = new javax.swing.JTextField();
         heliSend = new javax.swing.JButton();
         heliPosition = new javax.swing.JCheckBox();
         jSpinner1 = new javax.swing.JSpinner();
         jSpinner2 = new javax.swing.JSpinner();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        heliTextBox = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Helicopter");
@@ -81,12 +120,17 @@ public class Helicopter extends javax.swing.JFrame implements Observer{
         heliLaser.setText("Laser Operation");
 
         heliSend.setText("Send");
+        heliSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                heliSendActionPerformed(evt);
+            }
+        });
 
         heliPosition.setText("Position");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        heliTextBox.setColumns(20);
+        heliTextBox.setRows(5);
+        jScrollPane1.setViewportView(heliTextBox);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -123,7 +167,7 @@ public class Helicopter extends javax.swing.JFrame implements Observer{
                         .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(heliField)
+                        .addComponent(heliTextField)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(heliSend)
                         .addGap(70, 70, 70))))
@@ -161,7 +205,7 @@ public class Helicopter extends javax.swing.JFrame implements Observer{
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(heliSend)
-                            .addComponent(heliField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(heliTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -178,6 +222,16 @@ public class Helicopter extends javax.swing.JFrame implements Observer{
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void heliSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_heliSendActionPerformed
+        // TODO add your handling code here:
+        String msg = heliTextField.getText();
+        if (!msg.equals("")) {
+            heliTextBox.append("Me: " + msg + "\n");
+            mainC.getMessage(msg, "Helicopter");
+            heliTextField.setText("");
+        }
+    }//GEN-LAST:event_heliSendActionPerformed
 
     /**
      * @param args the command line arguments
@@ -216,12 +270,13 @@ public class Helicopter extends javax.swing.JFrame implements Observer{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel heliArea;
-    private javax.swing.JTextField heliField;
     private javax.swing.JButton heliLaser;
     private javax.swing.JButton heliMissile;
     private javax.swing.JCheckBox heliPosition;
     private javax.swing.JButton heliSend;
     private javax.swing.JButton heliShoot;
+    private javax.swing.JTextArea heliTextBox;
+    private javax.swing.JTextField heliTextField;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
@@ -229,6 +284,5 @@ public class Helicopter extends javax.swing.JFrame implements Observer{
     private javax.swing.JSlider jSlider1;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner2;
-    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }

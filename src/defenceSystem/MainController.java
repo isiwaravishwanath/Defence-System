@@ -11,18 +11,14 @@ package defenceSystem;
 public class MainController extends javax.swing.JFrame {
 
     Observer[] observerArray = new Observer[0];
-    Helicopter helicopter = new Helicopter();
-    Submarine submarine = new Submarine();
-    Tank tank = new Tank();
+    public Helicopter helicopter;
+    public Submarine submarine;
+    public Tank tank;
 
     public MainController() {
         initComponents();
         setResizable(false);
         setLocation(700, 400);
-        helicopter.setVisible(true);
-        submarine.setVisible(true);
-        tank.setVisible(true);
-        addObserverDefence(helicopter, tank, submarine);
     }
 
     public void addDefence(Observer observer) {
@@ -44,6 +40,18 @@ public class MainController extends javax.swing.JFrame {
         observerArray = tempObserverArray;
     }
 
+    public void getMessage(String msg, String sender) {
+        if (sender.equals("Helicopter")) {
+            mainHeli.append(sender + " : " + msg + "\n");
+        } else if (sender.equals("Tank")) {
+            mainTank.append(sender + ": " + msg + "\n");
+        } else if (sender.equals("Submarine")) {
+            mainSub.append(sender + ": " + msg + "\n");
+        }
+    }
+    
+   
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,7 +68,7 @@ public class MainController extends javax.swing.JFrame {
         mainFuel = new javax.swing.JLabel();
         mainAmmo = new javax.swing.JLabel();
         mainPosition = new javax.swing.JLabel();
-        jSlider1 = new javax.swing.JSlider();
+        mainSlider = new javax.swing.JSlider();
         mainSendPrivate = new javax.swing.JCheckBox();
         mainSend = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -73,12 +81,17 @@ public class MainController extends javax.swing.JFrame {
         mainAll = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        mainSub1 = new javax.swing.JTextArea();
+        mainSub = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Main Controller");
 
         mainCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Defence", "Helicopter", "Tank", "Submarine" }));
+        mainCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mainComboActionPerformed(evt);
+            }
+        });
 
         mainCollect.setText("Collect Information");
 
@@ -97,11 +110,16 @@ public class MainController extends javax.swing.JFrame {
 
         mainPosition.setText("Position");
 
-        jSlider1.setMajorTickSpacing(20);
-        jSlider1.setMinorTickSpacing(10);
-        jSlider1.setPaintLabels(true);
-        jSlider1.setPaintTicks(true);
-        jSlider1.setValue(0);
+        mainSlider.setMajorTickSpacing(20);
+        mainSlider.setMinorTickSpacing(10);
+        mainSlider.setPaintLabels(true);
+        mainSlider.setPaintTicks(true);
+        mainSlider.setValue(0);
+        mainSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                mainSliderStateChanged(evt);
+            }
+        });
 
         mainSendPrivate.setText("Send Private");
 
@@ -133,9 +151,9 @@ public class MainController extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("Submarine");
 
-        mainSub1.setColumns(20);
-        mainSub1.setRows(5);
-        jScrollPane5.setViewportView(mainSub1);
+        mainSub.setColumns(20);
+        mainSub.setRows(5);
+        jScrollPane5.setViewportView(mainSub);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -163,10 +181,6 @@ public class MainController extends javax.swing.JFrame {
                                 .addGap(226, 226, 226)
                                 .addComponent(mainArea, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(68, 68, 68)
-                                .addComponent(mainSend))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel1))
@@ -178,7 +192,12 @@ public class MainController extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
                                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(mainSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(mainSend)
+                        .addGap(88, 88, 88)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -207,9 +226,9 @@ public class MainController extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(mainSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
+                        .addGap(23, 23, 23)
                         .addComponent(mainSend)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -243,11 +262,10 @@ public class MainController extends javax.swing.JFrame {
 //                ob.setArea("Area Not Cleared");
 //            }
 //        }
-        
-        for(Observer ob:observerArray){
-            if(mainArea.isSelected()){
+        for (Observer ob : observerArray) {
+            if (mainArea.isSelected()) {
                 ob.setArea("Area Cleared");
-            }else{
+            } else {
                 ob.setArea("Area not cleared");
             }
         }
@@ -256,12 +274,37 @@ public class MainController extends javax.swing.JFrame {
 
     private void mainSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainSendActionPerformed
         // TODO add your handling code here:
-        if(mainCombo.getSelectedItem().toString().equals("Helicopter")){
-            System.out.println("Helicopter");
-        }else if(mainCombo.getSelectedItem()=="Tank"){
-            System.out.println("Tank");
+        String option=mainCombo.getSelectedItem().toString();
+        String mainTxt = mainAll.getText();
+        
+        if(mainSendPrivate.isSelected() && option.equals("Helicopter")){
+            observerArray.
+        }
+        for (Observer ob : observerArray) {
+            if (!mainTxt.equals("")) {
+                ob.setMessage(mainTxt);
+                mainAll.setText("");
+            }
         }
     }//GEN-LAST:event_mainSendActionPerformed
+
+    private void mainSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_mainSliderStateChanged
+        // TODO add your handling code here:
+       if(mainSendPrivate.isSelected()){
+            String option=mainCombo.getSelectedItem().toString();
+            int sliderValue = mainSlider.getValue();
+            for(Observer ob:observerArray){
+                ob.setSelection(sliderValue, option);
+            }
+        }
+        
+    }//GEN-LAST:event_mainSliderStateChanged
+
+    private void mainComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainComboActionPerformed
+        // TODO add your handling code here:
+        
+        
+    }//GEN-LAST:event_mainComboActionPerformed
 
     /**
      * @param args the command line arguments
@@ -306,7 +349,6 @@ public class MainController extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JSlider jSlider1;
     private javax.swing.JTextArea mainAll;
     private javax.swing.JLabel mainAmmo;
     private javax.swing.JCheckBox mainArea;
@@ -317,8 +359,9 @@ public class MainController extends javax.swing.JFrame {
     private javax.swing.JLabel mainPosition;
     private javax.swing.JButton mainSend;
     private javax.swing.JCheckBox mainSendPrivate;
+    private javax.swing.JSlider mainSlider;
     private javax.swing.JLabel mainSoldier;
-    private javax.swing.JTextArea mainSub1;
+    private javax.swing.JTextArea mainSub;
     private javax.swing.JTextArea mainTank;
     // End of variables declaration//GEN-END:variables
 }

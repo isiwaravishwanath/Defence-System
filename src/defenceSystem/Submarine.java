@@ -8,7 +8,9 @@ package defenceSystem;
  *
  * @author Isiwara
  */
-public class Submarine extends javax.swing.JFrame implements Observer{
+public class Submarine extends javax.swing.JFrame implements Observer {
+
+    private MainController mainC;
 
     /**
      * Creates new form Submarine
@@ -17,11 +19,55 @@ public class Submarine extends javax.swing.JFrame implements Observer{
         initComponents();
         setResizable(false);
         setLocation(700, 40);
+        subTextBox.setEditable(false);
+        setVisible(true);
+        subShoot.setEnabled(false);
+        subSonar.setEnabled(false);
+        subTomahawk.setEnabled(false);
+        subTrident.setEnabled(false);
     }
-    
+
     @Override
-    public void setArea(String area){
+    public void setArea(String area) {
         subArea.setText(area);
+    }
+
+    @Override
+    public void setMessage(String msg) {
+        subTextBox.append("Main Controller: " + msg + "\n");
+    }
+
+    public void addMain(MainController mainC) {
+        this.mainC = mainC;
+    }
+
+    public void setSelection(int value, String option) {
+        if (option.equals("Submarine")) {
+            if (value >= 20) {
+                subShoot.setEnabled(true);
+            } else if (value < 20) {
+                subShoot.setEnabled(false);
+            }
+
+            if (value >= 40) {
+                subSonar.setEnabled(true);
+            } else if (value < 40) {
+                subSonar.setEnabled(false);
+            }
+
+            if (value >= 60) {
+                subTomahawk.setEnabled(true);
+            } else if (value < 60) {
+                subTomahawk.setEnabled(false);
+            }
+
+            if (value >= 80) {
+                subTrident.setEnabled(true);
+            } else if (value < 80) {
+                subTrident.setEnabled(false);
+            }
+        }
+
     }
 
     /**
@@ -41,11 +87,11 @@ public class Submarine extends javax.swing.JFrame implements Observer{
         subPosition = new javax.swing.JCheckBox();
         subTomahawk = new javax.swing.JButton();
         jSpinner1 = new javax.swing.JSpinner();
-        subField = new javax.swing.JTextField();
+        subTextField = new javax.swing.JTextField();
         jSpinner2 = new javax.swing.JSpinner();
         subTrident = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        subTextBox = new javax.swing.JTextArea();
         jSlider1 = new javax.swing.JSlider();
         subArea = new javax.swing.JLabel();
         jSlider2 = new javax.swing.JSlider();
@@ -64,6 +110,11 @@ public class Submarine extends javax.swing.JFrame implements Observer{
         subShoot.setText("Shoot");
 
         subSend.setText("Send");
+        subSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subSendActionPerformed(evt);
+            }
+        });
 
         subSonar.setText("Sonar Operation");
 
@@ -73,9 +124,9 @@ public class Submarine extends javax.swing.JFrame implements Observer{
 
         subTrident.setText("Trident-2 Missile");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        subTextBox.setColumns(20);
+        subTextBox.setRows(5);
+        jScrollPane1.setViewportView(subTextBox);
 
         jSlider1.setMajorTickSpacing(20);
         jSlider1.setMinorTickSpacing(10);
@@ -107,7 +158,7 @@ public class Submarine extends javax.swing.JFrame implements Observer{
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(subField)
+                        .addComponent(subTextField)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(subSend))
                     .addGroup(layout.createSequentialGroup()
@@ -181,7 +232,7 @@ public class Submarine extends javax.swing.JFrame implements Observer{
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(subSend)
-                            .addComponent(subField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(subTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -196,6 +247,17 @@ public class Submarine extends javax.swing.JFrame implements Observer{
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void subSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subSendActionPerformed
+        // TODO add your handling code here:
+
+        String msg = subTextField.getText();
+        if (!msg.equals("")) {
+            subTextBox.append("Me: " + msg + "\n");
+            mainC.getMessage(msg, "Submarine");
+            subTextField.setText("");
+        }
+    }//GEN-LAST:event_subSendActionPerformed
 
     /**
      * @param args the command line arguments
@@ -242,13 +304,13 @@ public class Submarine extends javax.swing.JFrame implements Observer{
     private javax.swing.JSlider jSlider2;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel subArea;
-    private javax.swing.JTextField subField;
     private javax.swing.JCheckBox subPosition;
     private javax.swing.JButton subSend;
     private javax.swing.JButton subShoot;
     private javax.swing.JButton subSonar;
+    private javax.swing.JTextArea subTextBox;
+    private javax.swing.JTextField subTextField;
     private javax.swing.JButton subTomahawk;
     private javax.swing.JButton subTrident;
     // End of variables declaration//GEN-END:variables
